@@ -1,14 +1,22 @@
 from cmath import exp, pi
+from math import ceil, log, modf
 import numpy as np
 
-def fft(x):
-	# Reusing code segments for logarithmic complexity
-	N = len(x)
+def extend_list(list):
+	n = len(list)
+	if not (modf(log(n, 2))[0] == 0.0):
+		list.extend([0] * int(2**(ceil(log(n, 2))) - n))
+
+def fft(sequence):
+	# Cooley - Tuckey Algorithm
+	seq = list(sequence)
+	extend_list(seq)
+	N = len(seq)
 	threshold = 32
 	if N <= threshold:
-		return vectorized_fft(x)
-	even = fft(x[0::2])
-	odd =  fft(x[1::2])
+		return vectorized_fft(seq)
+	even = fft(seq[0::2])
+	odd =  fft(seq[1::2])
 
 	if (len(odd) < N//2 - 1):
 		print "Error"
@@ -16,14 +24,16 @@ def fft(x):
 	return [even[k] + T[k] for k in range(N//2)] + \
 			[even[k] - T[k] for k in range(N//2)]
 
-def ifft(x):
-	# Reusing code segments for logarithmic complexity
-	N = len(x)
+def ifft(sequence):
+	# Cooley - Tuckey Algorithm Extended
+	seq = list(sequence)
+	extend_list(seq)
+	N = len(seq)
 	threshold = 32
 	if N <= threshold:
-		return vectorized_ifft(x)
-	even = ifft(x[0::2])
-	odd =  ifft(x[1::2])
+		return vectorized_ifft(seq)
+	even = ifft(seq[0::2])
+	odd =  ifft(seq[1::2])
 	if (len(odd) < N//2 - 1): print "Error"
 	T= [exp(2j*pi*k/N)*odd[k] for k in range(N//2)]
 	return [even[k] + T[k] for k in range(N//2)] + \
