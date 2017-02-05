@@ -18,12 +18,16 @@ def ifft(x):
 	# Reusing code segments for logarithmic complexity
 	N = len(x)
 	if N <= 1: return x
-	even = fft(x[0::2])
-	odd =  fft(x[1::2])
+	even = ifft(x[0::2])
+	odd =  ifft(x[1::2])
 	if (len(odd) < N//2 - 1): print "Error"
 	T= [exp(2j*pi*k/N)*odd[k] for k in range(N//2)]
 	return [even[k] + T[k] for k in range(N//2)] + \
 			[even[k] - T[k] for k in range(N//2)]
+
+
+
+
 
 
 def FFT_vectorized(x):
@@ -58,7 +62,8 @@ def FFT_vectorized(x):
 
 
 
-a = [1, 0, 1, 1] * 65536
+a = [1, 0, 1, 1] * 16
+
 # %timeit l = fft(a)
 # %timeit l = FFT_vectorized(a)
 # %timeit l = np.fft.fft(a)
