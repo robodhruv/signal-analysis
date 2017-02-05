@@ -23,7 +23,7 @@ out_left = fun_conv(inp,rir_left);
 //obtain convolved signal for right channel
 out_right = fun_conv(inp,rir_right);
 
-//obtaining stereo sound by combaining two channels
+//obtaining stereo sound by combining two channels
 out = [out_left;out_right];
 out = out/max(abs(out));
 
