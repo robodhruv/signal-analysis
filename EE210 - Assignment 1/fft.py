@@ -2,15 +2,16 @@ from cmath import exp, pi
 from math import ceil, log, modf
 import numpy as np
 
-def extend_list(list):
-	n = len(list)
+def extend_domain(sound, N):
+	n = N - 1
 	if not (modf(log(n, 2))[0] == 0.0):
-		list.extend([0] * int(2**(ceil(log(n, 2))) - n))
+		sound.extend([0] * int(2**(ceil(log(n, 2))) - len(sound)))
+
 
 def fft(sequence):
 	# Cooley - Tuckey Algorithm
 	seq = list(sequence)
-	extend_list(seq)
+	# extend_list(seq)
 	N = len(seq)
 	threshold = 32
 	if N <= threshold:
@@ -27,7 +28,7 @@ def fft(sequence):
 def ifft(sequence):
 	# Cooley - Tuckey Algorithm Extended
 	seq = list(sequence)
-	extend_list(seq)
+	# extend_list(seq)
 	N = len(seq)
 	threshold = 32
 	if N <= threshold:
@@ -62,7 +63,7 @@ def iFFT(x):
 	x = np.asarray(x, dtype=np.cfloat)
 	N = x.shape[0]
 	if N <= 32:  # this cutoff should be optimized
-		return idft_slow(x)
+		return vectorized_ifft(x)
 	else:
 		X_even = iFFT(x[::2])
 		X_odd = iFFT(x[1::2])
