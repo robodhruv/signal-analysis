@@ -4,7 +4,7 @@ from scipy.io import wavfile
 
 dir = "Files/"
 results_dir = dir + "results/"
-FIR = "Five_Columns_Long_16k"
+FIR = "parking_garage_16k"
 Source_Sound = "BheegiRegular"
 
 if __name__ == '__main__':
@@ -25,12 +25,26 @@ if __name__ == '__main__':
 		extend_domain(IR_R, N)
 
 		X = np.asarray(fft(input_sound))
-		IR = np.asarray(fft(IR_L))
+		IR_l = np.asarray(fft(IR_L))
+		IR_r = np.asarray(fft(IR_R))
 
-		Y = X * IR
-		y = ifft(Y)
+		Y1 = X * IR_l
+		y1 = ifft(Y1)
 
-		yr = np.real(y)
-		yr /= max(yr) * 1.01
+		Y2 = X * IR_r
+		y2 = ifft(Y2)
+
+		yr1 = np.real(y1)
+		yr1 /= max(yr1) * 1.01
+		yr1 = yr1[:N]
+
+		yr2 = np.real(y2)
+		yr2 /= max(yr2) * 1.01
+		yr2 = yr2[:N]
+
+		yr = np.empty([np.shape(yr1)[0], 2])
+		yr[:,0] = yr1
+		yr[:,1] = yr2
+		print np.shape(yr)
 
 		wavfile.write(results_dir + FIR + "_complete.wav", sampling_sound, yr)
