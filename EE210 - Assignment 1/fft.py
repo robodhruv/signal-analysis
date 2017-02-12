@@ -11,7 +11,6 @@ def extend_domain(sound, N):
 def fft(sequence):
 	# Cooley - Tuckey Algorithm
 	seq = list(sequence)
-	# extend_list(seq)
 	N = len(seq)
 	threshold = 32
 	if N <= threshold:
