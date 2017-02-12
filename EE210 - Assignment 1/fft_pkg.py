@@ -8,15 +8,15 @@ def extend_domain(sound, N):
 		sound.extend([0] * int(2**(ceil(log(n, 2))) - len(sound)))
 
 
-def fft(sequence):
+def fft_i(sequence):
 	# Cooley - Tuckey Algorithm
 	seq = list(sequence)
 	N = len(seq)
-	threshold = 32
+	threshold = 16
 	if N <= threshold:
 		return vectorized_fft(seq)
-	even = fft(seq[0::2])
-	odd =  fft(seq[1::2])
+	even = fft_i(seq[0::2])
+	odd =  fft_i(seq[1::2])
 
 	if (len(odd) < N//2 - 1):
 		print "Error"
@@ -24,16 +24,15 @@ def fft(sequence):
 	return [even[k] + T[k] for k in range(N//2)] + \
 			[even[k] - T[k] for k in range(N//2)]
 
-def ifft(sequence):
+def ifft_i(sequence):
 	# Cooley - Tuckey Algorithm Extended
 	seq = list(sequence)
-	# extend_list(seq)
 	N = len(seq)
 	threshold = 32
 	if N <= threshold:
 		return vectorized_ifft(seq)
-	even = ifft(seq[0::2])
-	odd =  ifft(seq[1::2])
+	even = ifft_i(seq[0::2])
+	odd =  ifft_i(seq[1::2])
 	if (len(odd) < N//2 - 1): print "Error"
 	T= [exp(2j*pi*k/N)*odd[k] for k in range(N//2)]
 	return [even[k] + T[k] for k in range(N//2)] + \

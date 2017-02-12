@@ -1,4 +1,4 @@
-from fft import *
+from fft_pkg import *
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
@@ -24,15 +24,15 @@ if __name__ == '__main__':
 		extend_domain(IR_L, N)
 		extend_domain(IR_R, N)
 
-		X = np.asarray(fft(input_sound))
-		IR_l = np.asarray(fft(IR_L))
-		IR_r = np.asarray(fft(IR_R))
+		X = np.asarray(fft_i(input_sound))
+		IR_l = np.asarray(fft_i(IR_L))
+		IR_r = np.asarray(fft_i(IR_R))
 
 		Y1 = X * IR_l
-		y1 = ifft(Y1)
+		y1 = ifft_i(Y1)
 
 		Y2 = X * IR_r
-		y2 = ifft(Y2)
+		y2 = ifft_i(Y2)
 
 		yr1 = np.real(y1)
 		yr1 /= max(yr1) * 1.01
