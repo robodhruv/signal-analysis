@@ -4,7 +4,6 @@ import sounddevice as sd
 import csv
 import re
 
-songfile = "Songs/song_a.txt"
 
 def get_sinusoid(a, f, phi, duration):
 	"""
@@ -20,7 +19,7 @@ def get_sinusoid(a, f, phi, duration):
 	x = a * np.sin((2 * np.pi * f * t) + phi)
 	return x
 
-def get_notes():
+def get_notes(songfile):
 	song = []
 	with open(songfile, 'rb') as csvfile:
 		songreader = csv.reader(csvfile, delimiter = ' ')
@@ -28,7 +27,7 @@ def get_notes():
 			song.append(row)
 	return song
 
-def strip_file():
+def strip_file(songfile):
 	stripped = []
 	with open(songfile, 'rb') as song_file:
 		for row in song_file:
@@ -37,8 +36,7 @@ def strip_file():
 	with open(songfile, 'wb') as new_file:
 		for el in stripped:
 			new_file.write(el)
-	return stripped
 
 
-print get_notes()
+# print get_notes()
 # print strip_file()
