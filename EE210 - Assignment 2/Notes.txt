@@ -1,0 +1,8 @@
+Good samples for harmonic spectra of different instruments:
+https://www.projectrhea.org/rhea/index.php/Fourier_analysis_in_Music
+
+Really good explanation of ADSR and how to fiddle with it:
+http://en.wikiaudio.org/ADSR_envelope
+
+Sexy shit that we won't have time to do this time (Also check out the Karplus Strong Algorithm):
+http://www.ee.columbia.edu/~ronw/dsp/
