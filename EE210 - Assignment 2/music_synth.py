@@ -31,12 +31,11 @@ def strip_file(songfile):
 	stripped = []
 	with open(songfile, 'rb') as song_file:
 		for row in song_file:
-			stripped.append(re.sub(r';', "", re.sub(r'\)', "", re.sub(r'\(', "", row))))
+			stripped.append(re.sub(r';', "", re.sub(
+				r'\)', "", re.sub(r'\(', "", row))))
 	song_file.close()
 	with open(songfile, 'wb') as new_file:
 		for el in stripped:
 			new_file.write(el)
 
-
-# print get_notes()
-# print strip_file()
+get_notes("Songs/song_b.txt")
