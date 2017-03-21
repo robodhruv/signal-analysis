@@ -2,7 +2,7 @@ from music_synth import *
 
 pluck = np.zeros(10)
 harmonics = np.array([1., - 1. / 9, 1. / 25])  # Spectral Profile
-adsr = np.array([80, 750, 0, 0])  # Temporal Profile (ms)
+adsr = np.array([40, 400, 0, 0])  # Temporal Profile (ms)
 rate = 16  # sampling rate in kHz
 total = np.sum(adsr)  # total time for which one pluck persists
 
@@ -55,10 +55,13 @@ def generate_song(filename):
 	notes.astype(np.float32)
 	song = np.zeros(int((duration + total) * rate))
 	notes = posify(notes)
+	impulse = gen_impulse()
 	for i in range(len(notes)):
 		tone = gen_tone(notes[i][0] / 2)
-		song[notes[i][1] * rate : (notes[i][1] * rate) + len(tone)] += tone
+		tune = tone * impulse
+		song[notes[i][1] * rate : (notes[i][1] * rate) + len(tone)] += tune
 		# print len(tone)
+	song = np.clip(song, -1.0, 1.0)
 	return song
 
 
