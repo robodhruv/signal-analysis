@@ -2,7 +2,7 @@ from music_synth import *
 
 pluck = np.zeros(10)
 harmonics = np.array([1., - 1. / 9, 1. / 25])  # Spectral Profile
-adsr = np.array([80, 750, 0, 0])  # Temporal Profile (ms)
+adsr = np.array([60, 600, 0, 0])  # Temporal Profile (ms)
 rate = 16  # sampling rate in kHz
 total = np.sum(adsr)  # total time for which one pluck persists
 

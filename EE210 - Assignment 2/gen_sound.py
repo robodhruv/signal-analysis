@@ -4,7 +4,7 @@ import csv
 import re
 import sounddevice as sd
 
-from music_synth import *
+from helper import *
 
 def generate_independent():
 	songfile = "Songs/song_a.txt"

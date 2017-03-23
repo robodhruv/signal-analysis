@@ -1,13 +1,15 @@
-from music_synth import *
+from helper import *
 
-harmonics = np.array([1., - 1. / 9, 1. / 25])  # Spectral Profile
+harmonics = np.array([1., - 1./2,  1. / 3, - 1./4, 1. / 5])  # Spectral Profile
 rate = 16  # sampling rate in kHz
-sustain = 0.75
+ADSR = [0.1, 0, 0.75, 0.15]
 
 def get_envelope(duration):
 	global rate
-	envelope = np.ones(sustain * duration * rate)
-	x = np.arange(duration * rate * (1 - sustain))
+	envelope = np.arange(duration * rate * (ADSR[0]))
+	envelope = envelope / np.max(envelope)
+	envelope = np.append(envelope, np.ones(ADSR[2] * duration * rate))
+	x = np.arange(duration * rate * ADSR[3])
 	x = x / np.max(x)
 	release = 1 - x
 	# envelope = list(envelope)
@@ -16,11 +18,13 @@ def get_envelope(duration):
 
 
 def gen_tone(f, duration):
-	global rate
+	global rate, harmonics
 	t = np.arange(duration * rate)
 	x = np.sin(2 * np.pi * f * t / (1000 * rate))
-	x = x + harmonics[1] * np.sin(2 * np.pi * 3 * f * t / (1000 * rate))
-	x = x + harmonics[2] * np.sin(2 * np.pi * 5 * f * t / (1000 * rate))
+	x = x + harmonics[1] * np.sin(2 * np.pi * 2 * f * t / (1000 * rate))
+	x = x + harmonics[2] * np.sin(2 * np.pi * 3 * f * t / (1000 * rate))
+	x = x + harmonics[3] * np.sin(2 * np.pi * 4 * f * t / (1000 * rate))
+	x = x + harmonics[4] * np.sin(2 * np.pi * 5 * f * t / (1000 * rate))
 	return x
 
 def generate_song(filename):
@@ -46,4 +50,4 @@ def generate_song(filename):
 
 
 song = generate_song("Songs/song_b.txt")
-# sd.play(song, rate * 1000)
+sd.play(song, rate * 1000)
